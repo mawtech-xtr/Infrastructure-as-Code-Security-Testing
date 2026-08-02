@@ -646,7 +646,39 @@ $ gitleaks dir ~/leaky-repo/ --report-path "report.json" --report-format templat
 
 You can always set the exit code when leaks are encountered with the --exit-code flag. Default exit codes below:
 
-```
+# Infrastructure-as-Code Security Testing
+
+## Project Description
+This project evaluates Infrastructure-as-Code templates for embedded security flaws using Checkov and tfsec.
+
+## Student
+Name: Mawuli Kofi Nyadzorgbe
+
+## Tools Used
+- Checkov
+- tfsec
+- Gitleaks
+- GitHub
+
+## Project Files
+
+- main.tf - Terraform configuration used for testing
+- screenshots - scan evidence
+- report - project report
+- evidence - security scan results
+
+## Security Tests Performed
+
+- Security Group checks
+- S3 bucket security checks
+- RDS encryption checks
+- Dockerfile policy checks
+- Secret detection
+
+## How to Run
+
+Install Checkov and tfsec, then scan the IaC templates.
+
 0 - no leaks present
 1 - leaks or error encountered
 126 - unknown flag
