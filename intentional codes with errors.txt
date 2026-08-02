@@ -1,0 +1,57 @@
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_s3_bucket" "data_bucket" {
+  bucket = "my-company-user-data-bucket"
+}
+
+resource "aws_s3_bucket_acl" "data_bucket_acl" {                                                                                         
+  bucket = aws_s3_bucket.data_bucket.id
+  acl    = "public-read"
+}
+
+resource "aws_security_group" "web_sg" {
+  name        = "web-sg"
+  description = "Security group for web servers"
+
+  ingress {
+    description = "SSH from anywhere"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_db_instance" "app_db" {
+  identifier          = "app-database"
+  engine              = "mysql"
+  instance_class      = "db.t3.micro"
+  allocated_storage   = 20
+  username            = "admin"
+  password            = "SuperSecret123!"
+  skip_final_snapshot = true
+}
+
+resource "aws_iam_policy" "admin_policy" {
+  name        = "full-access-policy"
+  description = "Allows full access to all resources"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = "*"
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_ebs_volume" "data_volume" {
+  availability_zone = "us-east-1a"
+  size              = 100
+  encrypted         = false
+}
